@@ -1,0 +1,66 @@
+{% extends 'users/cashier/cashier-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Главная страница{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/input-search.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/tasks-styles.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Главная страница</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <form method="post" class="search-form">
+                {% csrf_token %}
+                <input type="search" name="query" placeholder="Поиск по номеру машины..." required>
+                <button type="submit">Поиск</button>
+            </form>
+
+            {% for task in uncompleted_exit_results %}
+                <div class="exit-task">
+                    <h3 class="heading">Машина на выезд (НЕ ЗАВЕРЕШЕНА)</h3>
+                    <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                    <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                        Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                    </div>
+                    <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                    <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                    <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                    <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                    <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                    <form action="{% url 'cashier_edit_exit_task' id=task.id %}" method="get">
+                        <button class="edit-exit-button">Редактировать</button>
+                    </form>
+                </div>
+            {% endfor %}
+
+            {% for task in completed_exit_results %}
+                <div class="exit-task">
+                    <h3 class="heading">Машина на выезд (ЗАВЕРЕШЕНА)</h3>
+                    <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                    <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                        Выезд (статус на момент нажатия кнопки завершения): {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                    </div>
+                    <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                    <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                    <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                    <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                    <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                    <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                    <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,22 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+.page-btn {
+    border: none;
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 5px;
+    background-color: var(--blue);
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: var(--lightblue);
+}

@@ -1,0 +1,55 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Изменение профиля сотрудника{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/edit-forms/edit-user-form.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/user-delete-win.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/admin-panel.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Изменение профиля сотрудника</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="help-btns-in-user-edit-form">
+            <form action="{% url 'admin_panel' %}" method="get">
+                <button class="back-to-edit-profile-btn">Вернуться назад</button>
+            </form>
+
+            <button id="openDeleteModalButton">Удалить сотрудника</button>
+        </div>
+
+        {% include 'tms_admin/additional-pages/modal-wins/modal-win-user.html' with user_to_delete=user_to_edit %}
+            
+        <form method="post" id="edit-user-form">
+            {% csrf_token %}
+            <label for="{{ form.username.id_for_label }}">Введите новое имя:</label><br>
+            {{ form.username }}<br>
+            <p>По нему сотрудник заходит в систему! Не более 100 символов. Только буквы, цифры и символы @/./+/-/_.</p>
+
+            <label for="{{ form.new_password1.id_for_label }}">Введите новый пароль:</label><br>
+            {{ form.new_password1 }}<br>
+            <p>Пароль не должен быть слишком похож на другую вашу личную информацию.
+                Пароль должен содержать как минимум 8 символов.
+                Пароль не должен быть слишком простым и распространенным.
+                Пароль не может состоять только из цифр.</p>
+
+            <label for="{{ form.new_password2.id_for_label }}">Подтвердите новый пароль:</label><br>
+            {{ form.new_password2 }}<br>
+            <button type="submit" class="edit-user-btn">Изменить данные сотрудника</button>
+        </form>
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+<script src="{% static 'tms_admin/js/modal-win-scr.js' %}"></script>
+{% endblock %}

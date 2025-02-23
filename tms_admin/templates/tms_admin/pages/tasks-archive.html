@@ -1,0 +1,150 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Архив задач{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/tasks-archive.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/tasks-styles.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Архив задач</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <form id="searchForm" method="get">
+            <h2>Фильтрация задач</h2>
+            <label for="filterType">Фильтрация по</label>
+            <select id="filterType" name="filterType" onchange="toggleFilters()">
+                <option value="date">По дате</option>
+                <option value="carNumber">По номеру машины</option>
+                <option value="completedStatus">По статусу</option>
+            </select>
+            
+            <!-- Скрытое поле для хранения значения фильтра -->
+            <input type="hidden" id="filterValue" name="filterValue" />
+            
+            <div class="input-group date-filter">
+                <label for="dateInput">Дата:</label><br>
+                <input type="date" id="dateInput" name="dateInput">
+            </div>
+            
+            <div class="input-group car-number-filter">
+                <label for="carNumberInput">Номер машины:</label><br>
+                <input type="text" id="carNumberInput" name="carNumberInput" placeholder="A111АА11">
+            </div>
+    
+            <div class="input-group completed-status-filter">
+                <label for="completedStatusSelect">Статус:</label><br>
+                <select id="completedStatusSelect" name="completedStatusSelect">
+                    <option value="true">Завершена</option>
+                    <option value="false">НЕ завершена</option>
+                </select>
+            </div>
+            
+            <button type="submit">🔍 Искать</button>
+        </form>
+
+        <div class="tasks-list">
+            <div class="uncompleted-tasks-list">
+                {% for task in uncompleted_text_results %}
+                    <div class="text-task">
+                        <h3 class="heading">{{ task.title }} (НЕ ЗАВЕРШЕНА)</h3>
+                        <p class="text-left">{{ task.full_text }}</p>
+                        <h3 class="text-right">Дата: {{ task.date }}</h3>
+                        <h3 class="text-right">Время: {{ task.time }}</h3>
+                        <h3 class="text-right">Автор задачи: {{ task.author.username }}</h3>
+                    </div>
+                {% endfor %}
+
+                {% for task in uncompleted_entry_results %}
+                    <div class="entry-task">
+                        <h3 class="heading">Машина на въезд (НЕ ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Въезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                    </div>
+                {% endfor %}
+
+                {% for task in uncompleted_exit_results %}
+                    <div class="exit-task">
+                        <h3 class="heading">Машина на выезд (НЕ ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="completed-tasks-list">
+                {% for task in completed_text_results %}
+                    <div class="text-task">
+                        <h3 class="heading">{{ task.title }} (ЗАВЕРШЕНА)</h3>
+                        <p class="text-left">{{ task.full_text }}</p>
+                        <h3 class="text-right">Дата: {{ task.date }}</h3>
+                        <h3 class="text-right">Время: {{ task.time }}</h3>
+                        <h3 class="text-right">Автор задачи: {{ task.author.username }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                    </div>
+                {% endfor %}
+
+                {% for task in completed_entry_results %}
+                    <div class="entry-task">
+                        <h3 class="heading">Машина на въезд (ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Въезд (статус на момент нажатия кнопки завершения): {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                        <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                    </div>
+                {% endfor %}
+
+                {% for task in completed_exit_results %}
+                    <div class="exit-task">
+                        <h3 class="heading">Машина на выезд (ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Выезд (статус момент нажатия кнопки завершения): {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                        <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+<script src="{% static 'tms_admin/js/archive-filter.js' %}"></script>
+{% endblock %}

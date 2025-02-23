@@ -1,0 +1,90 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+#searchForm {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding: 20px;
+    border: 2px solid var(--blue);
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 30%;
+    margin-bottom: 20px;
+}
+
+#filterType {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 70%;
+    padding: 12px 16px;
+    border-radius: 5px;
+    border: 1px solid var(--blue);
+    margin-left: 15%;
+    font-size: 16px;
+}
+
+.date-filter,
+.car-number-filter,
+.completed-status-filter {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+#searchForm button {
+    padding: 12px 16px;
+    background-color: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 20px;
+    margin-left: 25%;
+    font-size: 16px;
+
+    transition: all 0.3s ease;
+}
+
+#searchForm button:hover {
+    background-color: var(--lightblue);
+}
+
+#dateInput,
+#carNumberInput,
+#completedStatusSelect {
+    padding: 12px 16px;
+    border-radius: 5px;
+    border: 1px solid var(--blue);
+    margin-top: 10px;
+    font-size: 16px;
+    width: 70%;
+}
+
+.tasks-list .uncompleted-tasks-list {
+    background-color: rgb(255, 0, 0, 0.337);
+    padding: 40px 0px;
+}
+
+.tasks-list .uncompleted-tasks-list .text-task:first-child,
+.tasks-list .uncompleted-tasks-list .entry-task:first-child,
+.tasks-list .uncompleted-tasks-list .exit-task:first-child,
+
+.tasks-list .completed-tasks-list .text-task:first-child,
+.tasks-list .completed-tasks-list .entry-task:first-child,
+.tasks-list .completed-tasks-list .exit-task:first-child{
+    margin-top: 0;
+}
+
+.tasks-list .completed-tasks-list {
+    background-color: rgba(34, 139, 34, 0.337);
+    padding: 40px 0px;
+}

@@ -1,0 +1,36 @@
+{% extends 'users/cashier/cashier-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Редактирование статуса{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/cashier/exit-edit-status.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Редактирование статуса машины на выезд</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="edit-form">
+            <form method="post">
+                {% csrf_token %}
+                <input type="checkbox" id="is_allowed_entry" name="is_allowed" {% if task.is_allowed %}checked{% endif %}>
+                <label for="is_allowed_entry"></label>
+
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+<script src="{% static 'users/js/modal-win-scr.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% load static %}
+<form action="{% url 'delete_entry_task' id=task.id %}" method="post">
+    {% csrf_token %}
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <h2>Вы точно хотите удалить задачу?</h2>
+            <button type="submit" class="delete-button">Удалить</button>
+            <button type="button" class="close-button">Отмена</button>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'tms_admin/js/modal-win-scr.js' %}"></script>

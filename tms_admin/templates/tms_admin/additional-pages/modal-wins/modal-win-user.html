@@ -1,0 +1,13 @@
+{% load static %}
+<form action="{% url 'delete_user' id=user_to_delete.id %}" method="post">
+    {% csrf_token %}
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <h2>Вы точно хотите удалить сотрудника?</h2>
+            <button type="submit" class="delete-button">Удалить</button>
+            <button type="button" class="close-button">Отмена</button>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'tms_admin/js/modal-win-scr.js' %}"></script>

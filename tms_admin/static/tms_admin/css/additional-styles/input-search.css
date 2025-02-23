@@ -1,0 +1,44 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+.search-form {
+    max-width: 350px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.search-form input[type="search"] {
+    width: 100%;
+    padding: 12px 80px 12px 15px;
+    font-size: 16px;
+    outline: none;
+    border: 1px solid var(--gray);
+    border-radius: 25px;
+}
+
+.search-form button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--gray);
+}
+
+.search-form button:focus,
+.search-form input:focus {
+    outline: none;
+}
+
+.search-form button:hover {
+    color: var(--blue);
+}

@@ -1,0 +1,105 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+}
+
+html, body {
+    font-family: "Inter", serif;
+    color: var(--blue);
+    height: 100vh;
+    font-size: 16px;
+}
+
+/* Левое меню */
+aside {
+    float: left;
+    width: 25%;
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    overflow-y: auto;
+    background-color: var(--lightgray);
+}
+
+.profile-photo {
+    height: 200px;
+    width: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.profile-photo img{
+    height: 150px;
+    width: 150px;
+}
+
+.username {
+    margin-top: 10px;
+    color: var(--gray);
+    font-size: 25px;
+}
+
+ul {
+    margin-top: 20px;
+    list-style-type: none;
+    text-align: center;
+    width: 100%;
+}
+
+
+ul button {
+    margin: 10px;
+    width: 70%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--gray);
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+ul button:hover {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+/* Контент справа */
+
+main .right-content {
+    float: left;
+    text-align: center;
+    width: 75%;
+    height: 100vh;
+    color: var(--gray);
+    padding: 40px 0px;
+    margin-left: 25%;
+    overflow-y: auto;
+}
+
+main .right-content h1 {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.date p {
+    font-size: 25px;
+}

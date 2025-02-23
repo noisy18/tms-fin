@@ -1,0 +1,43 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+.parent-element {
+    margin-top: 30px;
+    width: 230px;
+}
+
+.parent-element button {
+    border: none;
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.parent-element button:hover {
+    background-color: var(--lightblue);
+}
+
+.calendar-container input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--blue);
+    border-radius: 5px;
+    font-size: 16px;
+    color: var(--blue);
+    margin-top: 10px;
+}
+
+#calendar-container {
+    display: none;
+}

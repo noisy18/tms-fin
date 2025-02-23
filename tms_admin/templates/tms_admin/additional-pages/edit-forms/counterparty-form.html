@@ -1,0 +1,48 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Редактирование контрагента{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/edit-forms/edit-counterparty-form.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Редактирование - "Контрагента"</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="edit-form">
+            <form method="post">
+                {% csrf_token %}
+                <label for="name">Имя:</label>
+                <input type="text" name="name" value="{{ counterparty.name }}">
+
+                <label for="surname">Фамилия:</label>
+                <input type="text" name="surname" value="{{ counterparty.surname }}">
+
+                <label for="last_name">Отчество:</label>
+                <input type="text" name="last_name" value="{{ counterparty.last_name }}">
+
+                <label for="marka_auto">Марка авто:</label>
+                <input type="text" name="marka_auto" value="{{ counterparty.marka_auto }}">
+
+                <label for="number_auto">Гос. номер авто:</label>
+                <input type="text" name="number_auto" value="{{ counterparty.number_auto }}">
+
+                <label for="vin_number">Vin номер:</label>
+                <input type="text" name="vin_number" value="{{ counterparty.vin_number }}">
+
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+{% endblock %}

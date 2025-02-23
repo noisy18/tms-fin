@@ -1,0 +1,190 @@
+.edit-form form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 30px;
+}
+
+input[type='text'],
+input[type='date'],
+input[type='time'] {
+    padding: 14px 18px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid #28485E;
+}
+
+textarea {
+    font-family: "Inter", serif;
+    padding: 14px 18px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid #28485E;
+}
+
+.edit-form form button {
+    margin-top: 30px;
+    margin-left: 25%;
+    width: 50%;
+    padding: 14px 18px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: #28485E;
+    color: #fff;
+    cursor: pointer;
+
+    transition: transform 0.3s ease;
+}
+
+.edit-form form button:hover {
+    transform: scale(1.05);
+}
+
+.edit-form label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+}
+
+
+/* Кнопка переключения разрешения */
+/* Скрываем оригинальный чекбокс */
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label::before {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    transition: all 0.25s ease-in-out;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    width: 46.5%;
+    margin-top: 20px;
+    margin-left: 25%;
+    cursor: pointer;
+  }
+
+/* Изменяем фоновый цвет и рамку при выборе чекбокса */
+input[type="checkbox"]:checked + label::before {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+    content: 'Въезд: Разрешен';
+}
+
+/* При снятии галочки */
+input[type="checkbox"]:not(:checked) + label::before {
+    background-color: #FF5252;
+    border-color: #FF5252;
+    color: white;
+    content: 'Въезд: Запрещен';
+}
+
+/* Стили для модального окна удаления задачи */
+/* Кнопка удаления задачи */
+#openDeleteModalButton {
+    padding: 12px 16px;
+    background-color: #FF5252;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    transition: transform 0.3s ease;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+#openDeleteModalButton:hover {
+    transform: scale(1.05);
+}
+
+/* Скрываем модальное окно по умолчанию */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 150px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    
+}
+
+/* Стилизация контента внутри модального окна */
+.modal-content {
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 50px;
+}
+
+/* Кнопка удаления */
+.delete-button {
+    padding: 12px 16px;
+    background-color: #FF5252;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+
+    transition: transform 0.3s ease;
+}
+
+.delete-button:hover {
+    transform: scale(1.05);
+}
+
+/* Кнопка закрытия */
+.close-button {
+    padding: 12px 16px;
+    background-color: #28485E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-size: 16px;
+
+    transition: transform 0.3s ease;
+}
+
+.close-button:hover {
+    transform: scale(1.05);
+}
+
+/* Затемненный фон при открытом окне */
+.modal-background {
+    display: none;
+    position: fixed;
+    z-index: 900;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}

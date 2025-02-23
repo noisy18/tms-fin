@@ -1,0 +1,52 @@
+{% extends 'users/cashier/cashier-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Главная страница{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/page-styles/cashier/exit.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/tasks-styles.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Машины на выезд</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <div class="parent-element">
+                <button class="calendar-btn" id="calendar-button">🗓️ Выбрать дату</button>
+                <div class="calendar-container" id="calendar-container">
+                    <input type="date" id="date-picker" value="{{ current_date }}">
+                </div>
+            </div>
+
+            {% for task in exittasks %}
+                <div class="exit-task">
+                    <h3 class="heading">Машина на выезд</h3>
+                    <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                    <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                        Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                    </div>
+                    <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                    <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                    <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                    <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                    <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                    <form action="{% url 'cashier_edit_exit_task' id=task.id %}" method="get">
+                        <button class="edit-exit-button">Редактировать</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+<script src="{% static 'users/js/calendar-container.js' %}"></script>
+{% endblock %}

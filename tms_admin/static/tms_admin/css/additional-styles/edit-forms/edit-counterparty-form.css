@@ -1,0 +1,49 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+
+.edit-form form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 30px;
+}
+
+
+input[type='text'] {
+    font-size: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--blue);
+    border-radius: 5px;
+}
+
+label {
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.edit-form form button {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 20px;
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 16px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.edit-form form button:hover {
+    transform: scale(1.05);
+}

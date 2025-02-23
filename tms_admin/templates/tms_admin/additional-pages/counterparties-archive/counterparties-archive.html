@@ -1,0 +1,107 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Архив контрагентов и доставки{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/counterparties-delivery.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/tasks-archive.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Архив контрагентов и доставки</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <form id="searchForm" method="get">
+            <h2>Фильтрация задач</h2>
+            <label for="filterType">Фильтрация по</label>
+            <select id="filterType" name="filterType" onchange="toggleFilters()">
+                <option value="carNumber">По номеру машины</option>
+                <option value="completedStatus">По статусу</option>
+            </select>
+            
+            <!-- Скрытое поле для хранения значения фильтра -->
+            <input type="hidden" id="filterValue" name="filterValue" />
+            
+            <div class="input-group date-filter">
+                <label for="dateInput">Дата:</label><br>
+                <input type="date" id="dateInput" name="dateInput">
+            </div>
+            
+            <div class="input-group car-number-filter">
+                <label for="carNumberInput">Номер машины:</label><br>
+                <input type="text" id="carNumberInput" name="carNumberInput" placeholder="A111АА11">
+            </div>
+    
+            <div class="input-group completed-status-filter">
+                <label for="completedStatusSelect">Статус:</label><br>
+                <select id="completedStatusSelect" name="completedStatusSelect">
+                    <option value="true">Завершена</option>
+                    <option value="false">НЕ завершена</option>
+                </select>
+            </div>
+            
+            <button type="submit">🔍 Искать</button>
+        </form>
+
+        <div class="tasks-list">
+            <div class="task">
+                {% for kontr in uncompleted_counterparties %}
+                    <div class="kontragent" style="border: 10px solid red;">
+                        <h3 class="heading">Контрагент № {{ counter.id }} (НЕ ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ counter.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ counter.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ counter.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ counter.author }}</span></h4>
+                    </div>
+                {% endfor %}
+
+                {% for counter in completed_counterparties %}
+                    <div class="kontragent">
+                        <h3 class="heading">Контрагент № {{ counter.id }} (ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ counter.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ counter.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ counter.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ counter.author }}</span></h4>
+                        <h4 class="text-right" style="color: #FF5252;">Кто выпустил: {{ counter.completed_by }}</h4>
+                        <h4 class="text-right" style="color: #FF5252;">Во сколько выпустил: {{ counter.date_exit }}</h4>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="task">
+                {% for del in uncompleted_delivery %}
+                    <div class="delivery" style="border: 10px solid red;">
+                        <h3 class="heading">Доставка № {{ del.id }} (НЕ ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ del.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                    </div>
+                {% endfor %}
+
+                {% for del in completed_delivery %}
+                    <div class="delivery">
+                        <h3 class="heading">Доставка № {{ del.id }} (ЗАВЕРШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ del.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                        <h4 class="text-right" style="color: #FF5252;">Кто выпустил: {{ del.completed_by }}</h4>
+                        <h4 class="text-right" style="color: #FF5252;">Во сколько выпустил: {{ del.date_exit }}</h4>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+<script src="{% static 'tms_admin/js/archive-filter.js' %}"></script>
+{% endblock %}

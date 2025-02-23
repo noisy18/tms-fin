@@ -1,0 +1,33 @@
+{% extends 'users/security/security-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Добавление доставки{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/security/add-delivery.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Добавление доставки</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <div class="add-kontragent-form">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.number_auto }}<br>
+                    {{ form.description }}<br>
+                    <button class="btn-add-task" type="submit">Добавить машину доставки</button>
+                </form>
+            </div>    
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

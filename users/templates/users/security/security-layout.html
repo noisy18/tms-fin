@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'users/css/layout-style.css' %}">
+
+    {% block style %}
+    {% endblock %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{% static 'main/img/logotype.svg' %}">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <aside>
+        <div class="profile-photo">
+            <img src="{% static 'main/img/logotypeblue.svg' %}" alt="">
+        </div>
+
+        <p>{{ username }}</p>
+
+        <ul>
+            <li>
+                <form action="{% url 'security_home_page' %}" method="get">
+                    <button type="submit">Главная страница</button>
+                </form>
+            </li>
+
+            <li>
+                <form action="{% url 'security_entry_page' %}" method="get">
+                    <button type="submit">Въезд</button>
+                </form>
+            </li>
+
+            <li>
+                <form action="{% url 'security_exit_page' %}" method="get">
+                    <button type="submit">Выезд</button>
+                </form>
+            </li>
+
+            <li>
+                <form action="{% url 'security_counterparties_page' %}" method="get">
+                    <button type="submit">Контрагенты</button>
+                </form>
+            </li>
+
+            <li>
+                <form action="{% url 'security_tasks_page' %}" method="get">
+                    <button type="submit">Задачи на день</button>
+                </form>
+            </li>
+        </ul>
+    </aside>
+    {% block main-content %}
+    {% endblock %}
+</body>
+</html>

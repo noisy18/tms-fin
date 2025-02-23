@@ -1,0 +1,30 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+.buttons {
+    margin-top: 30px;
+    width: 28%;
+    margin-left: 36%;
+}
+
+.buttons form button {
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 16px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.buttons form button:hover {
+    background-color: var(--lightblue);
+}

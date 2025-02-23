@@ -1,0 +1,63 @@
+{% extends 'users/security/security-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Контрагенты и машины доставки{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/security/page-buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/page-styles/security/counterparties-delivery.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Контрагенты и машины доставки</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <div class="buttons">
+                <form action="{% url 'security_add_delivery' %}" method="get">
+                    <button>📦 Добавить доставку</button>
+                </form>
+            </div>
+
+            <div class="tasks-list">
+                <div class="task">
+                    {% for counter in counterparties %}
+                        <div class="kontragent">
+                            <h3 class="heading">Контрагент № {{ counter.id }}</h3>
+                            <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ counter.number_auto }}</h4>
+                            <h4 class="text-left">Дополнительная информация: <span>{{ counter.description }}</span></h4>
+                            <h4 class="text-right">Время въезда: <span>{{ counter.date_entry }}</span></h4>
+                            <h4 class="text-right">Добавил: <span>{{ counter.author }}</span></h4>
+                            <form action="{% url 'mark_counterparties_complete' id=counter.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="kontragent-btn">Выехал</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="task">
+                    {% for del in delivery %}
+                        <div class="delivery">
+                            <h3 class="heading">Доставка № {{ del.id }}</h3>
+                            <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ del.number_auto }}</h4>
+                            <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                            <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                            <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                            <form action="{% url 'mark_delivery_complete' id=del.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="delivery-btn">Выехала</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

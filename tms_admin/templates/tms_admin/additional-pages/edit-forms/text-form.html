@@ -1,0 +1,41 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Редактирование задачи{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/edit-forms/edit-task-form.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Редактирование - "Текстовой задачи"</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <button id="openDeleteModalButton">Удалить задачу</button>
+
+        {% include 'tms_admin/additional-pages/modal-wins/modal-win-text.html' %}
+
+        <div class="edit-form">
+            <form method="post">
+                {% csrf_token %}
+                <label for="title">Заголовок задачи:</label>
+                <input type="text" id="title" name="title" value="{{ task.title }}">
+                <label for="full_text">Текст задачи:</label>
+                <textarea id="full_text" name="full_text">{{ task.full_text }}</textarea>
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+<script src="{% static 'tms_admin/js/modal-win-scr.js' %}"></script>
+{% endblock %}

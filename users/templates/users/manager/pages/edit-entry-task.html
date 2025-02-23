@@ -1,0 +1,56 @@
+{% extends 'users/manager/manager-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Машины на въезд{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/manager/edit-entry-task.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Машины на въезд</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <button id="openDeleteModalButton">Удалить задачу</button>
+
+            {% include 'users/manager/pages/modal-win-entry.html' %}
+
+            <div class="edit-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="number_auto">Гос. Номер авто:</label>
+                    <input type="text" id="number_auto" name="number_auto" value="{{ task.number_auto }}">
+
+                    <label for="marka_auto">Марка авто:</label>
+                    <input type="text" id="marka_auto" name="marka_auto" value="{{ task.marka_auto }}">
+
+                    <label for="name_organization">Название организации:</label>
+                    <input type="text" id="name_organization" name="name_organization" value="{{ task.name_organization }}">
+
+                    <label for="description">Дополнительная информация:</label>
+                    <textarea id="additional_information" name="description">{{ task.description }}</textarea>
+
+                    <label for="date">Дата въезда:</label>
+                    <input type="date" id="date" name="date" value="{{ task.date|date:'Y-m-d' }}">
+
+                    <label for="time">Время въезда:</label>
+                    <input type="time" id="time" name="time" value="{{ task.time|time:'H:i' }}">
+                    
+                    <input type="checkbox" id="is_allowed_entry" name="is_allowed" {% if task.is_allowed %}checked{% endif %}>
+                    <label for="is_allowed_entry"></label>
+
+                    <button type="submit">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Главная страница{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/input-search.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/counterparties-delivery.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/tasks-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/page-styles/home.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Главная страница</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <form method="post" class="search-form">
+                {% csrf_token %}
+                <input type="search" name="query" placeholder="Поиск по номеру машины..." required>
+                <button type="submit">Поиск</button>
+            </form>
+            
+            {% if uncompleted_entry_results or uncompleted_exit_results or completed_entry_results or completed_exit_results or completed_kontragent or uncompleted_kontragent or completed_delivery or uncompleted_delivery %}
+                <h3>▼ Результаты поиска ▼</h3>
+            
+                {% for task in uncompleted_entry_results %}
+                    <div class="entry-task">
+                        <h3 class="heading">Машина на въезд (НЕ ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Въезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                        {% if task.date|date:"Y-m-d" >= today|date:"Y-m-d" %}
+                            <form action="{% url 'edit_entry_task' id=task.id %}" method="get">
+                                <button class="edit-entry-button">Редактировать</button>
+                            </form>
+
+                            <form action="{% url 'mark_entry_task_complete' id=task.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="entry-success-button">Въехала</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% for task in completed_entry_results %}
+                    <div class="entry-task">
+                        <h3 class="heading">Машина на въезд (ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Въезд (статус на момент нажатия кнопки завершения): {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                        <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                    </div>
+                {% endfor %}
+
+                {% for task in uncompleted_exit_results %}
+                    <div class="exit-task">
+                        <h3 class="heading">Машина на выезд (НЕ ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                        {% if task.date|date:"Y-m-d" >= today|date:"Y-m-d" %}
+                            <form action="{% url 'edit_exit_task' id=task.id %}" method="get">
+                                <button class="edit-exit-button">Редактировать</button>
+                            </form>
+
+                            <form action="{% url 'mark_exit_task_complete' id=task.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="exit-success-button">Въехала</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% for task in completed_exit_results %}
+                    <div class="exit-task">
+                        <h3 class="heading">Машина на выезд (ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос.Номер: <span>{{ task.number_auto }}</span></h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Выезд (статус на момент нажатия кнопки завершения): {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+                        <h3 class="text-right" style="color: #FF5252;">Время завершения: {{ task.completed_at }}</h3>
+                        <h3 class="text-right" style="color: #FF5252;">Кто завершил: {{ task.completed_by }}</h3>
+                    </div>
+                {% endfor %}
+                <!-- КОНТРАГЕНТЫ И ДОСТАВКА -->
+                {% for kontr in completed_kontragent %}
+                    <div class="kontragent" style="width: 40%; margin-left: 30%;">
+                        <h3>Контрагент № {{ kontr.id }} (ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ kontr.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ kontr.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ kontr.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ kontr.author }}</span></h4>
+                        <h4 class="text-right" style="color: #FF5252;">Кто выпустил: {{ kontr.completed_by }}</h4>
+                        <h4 class="text-right" style="color: #FF5252;">Во сколько выпустил: {{ kontr.date_exit }}</h4>
+                    </div>
+                {% endfor %}
+
+                {% for kontr in uncompleted_kontragent %}
+                    <div class="kontragent" style="width: 40%; margin-left: 30%;">
+                        <h3>Контрагент № {{ kontr.id }} (НЕ ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ kontr.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ kontr.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ kontr.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ kontr.author }}</span></h4>
+                        {% if kontr.date_entry >= now %}
+                            <form action="{% url 'mark_counterparties_complete' id=kontr.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="kontragent-btn">Выехал</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% for del in completed_delivery %}
+                    <div class="delivery" style="width: 40%; margin-left: 30%;">
+                        <h3>Доставка № {{ del.id }} (ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ del.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                        <h4 class="text-right" style="color: #FF5252;">Кто выпустил: {{ del.completed_by }}</h4>
+                        <h4 class="text-right" style="color: #FF5252;">Во сколько выпустил: {{ del.date_exit }}</h4>
+                    </div>
+                {% endfor %}
+
+                {% for del in uncompleted_delivery %}
+                    <div class="delivery" style="width: 40%; margin-left: 30%;">
+                        <h3>Доставка № {{ del.id }} (НЕ ЗАВЕРЕШЕНА)</h3>
+                        <h4 class="text-left">Гос. Номер авто: <span>{{ del.number_auto }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                        {% if del.date_entry >= now %}
+                            <form action="{% url 'mark_delivery_complete' id=del.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="delivery-btn">Выехал</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+{% endblock %}

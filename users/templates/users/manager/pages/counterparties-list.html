@@ -1,0 +1,48 @@
+{% extends 'users/manager/manager-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Список контрагентов{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/input-search.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/page-styles/manager/counterparties-list.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Список контрагентов</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <form method="post" class="search-form">
+                {% csrf_token %}
+                <input type="search" name="query" placeholder="Поиск по номеру машины..." required>
+                <button type="submit">Поиск</button>
+            </form>
+
+            {% for counter in counterparty %}
+                <div class="counterparty">
+                    <div class="info">
+                        <p class="name">{{ counter.name }} {{ counter.surname }} {{ counter.last_name }}</p>
+                        <p class="auto" style="font-size: 20px;">Гос. номер авто: {{ counter.number_auto }}</p>
+                        <p class="auto">Марка авто: {{ counter.marka_auto }}</p>
+                        <p class="auto">Vin номер: {{ counter.vin_number }}</p>
+                    </div>
+                    <div class="buttons">
+                        <form action="{% url 'create_counterparty_pass' counterparty_id=counter.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="add-btn">Добавить на въезд</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

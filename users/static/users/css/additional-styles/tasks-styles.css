@@ -1,0 +1,226 @@
+:root {
+    --blue: #28485E;
+    --lightgray: #DADADA;
+    --gray: #6E6E6E;
+    --white: #fff;
+    --lightblue: #65869b;
+}
+
+.heading {
+    font-size: 24px;
+}
+
+.text-task {
+    background-color: var(--lightgray);
+    width: 70%;
+    margin-left: 15%;
+    padding: 10px;
+    margin-top: 40px;
+    border-radius: 5px;
+
+    position: relative;
+}
+
+.entry-task {
+    margin-top: 40px;
+    background-color: var(--blue);
+    width: 70%;
+    margin-left: 15%;
+    padding: 10px;
+    color: var(--white);
+    border-radius: 5px;
+
+    position: relative;
+}
+
+.exit-task {
+    margin-top: 40px;
+    width: 70%;
+    margin-left: 15%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--blue);
+    border: 2px solid var(--blue);
+
+    position: relative;
+}
+
+.text-right {
+    margin-top: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.text-left {
+    margin-top: 10px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.entry-task span,
+.exit-task span {
+    font-weight: 300;
+}
+
+/* Окно со статусом машины */
+.status {
+    padding: 10px;
+    border-radius: 5px;
+    width: 30%;
+    right: 0;
+    position: absolute;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.allowed {
+    background-color: #4CAF50;
+    color: var(--white);
+}
+
+.denied {
+    background-color: #FF5252;
+    color: var(--white);
+}
+
+
+.edit-button {
+    opacity: 0; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    padding: 12px 16px;
+    background-color: var(--blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-button:hover {
+    background-color: var(--lightblue);
+}
+
+.text-task:hover .edit-button {
+    opacity: 1;
+}
+
+/* Появляющиеся кнопки у entry-task */
+
+.edit-entry-button {
+    opacity: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    padding: 12px 16px;
+    background-color: var(--white);
+    color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-entry-button:hover {
+    background-color: var(--lightgray);
+}
+
+.entry-task:hover .edit-entry-button {
+    opacity: 1;
+}
+
+/* Кнопка "Вьехала" */
+
+.entry-success-button {
+    padding: 12px 16px;
+    background-color: var(--white);
+    color: var(--blue);
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.entry-success-button:hover {
+    background-color: var(--lightgray);
+}
+
+/* Кнопка "Выехала" */
+
+.exit-success-button {
+    padding: 12px 16px;
+    background-color: var(--blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.exit-success-button:hover {
+    background-color: var(--lightblue);
+}
+
+/* Появляющиеся кнопки у exit-task*/
+
+.edit-exit-button {
+    opacity: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    padding: 12px 16px;
+    background-color: var(--blue);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-exit-button:hover {
+    background-color: var(--lightblue);
+}
+
+.exit-task:hover .edit-exit-button {
+    opacity: 1;
+}
+
+.tasks-lits-clear {
+    margin-top: 20px;
+}
+
+/* Отображение контрагента */
+
+.kontragent {
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 40px;
+    border: 2px solid var(--blue);
+    border-radius: 5px;
+    padding: 10px;
+    color: var(--blue);
+}

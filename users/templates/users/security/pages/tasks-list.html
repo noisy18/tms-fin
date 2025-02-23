@@ -1,0 +1,94 @@
+{% extends 'users/security/security-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Задачи на день{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/page-styles/security/tasks-list.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/tasks-styles.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Задачи на день</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <div class="parent-element">
+                <button class="calendar-btn" id="calendar-button">🗓️ Выбрать дату</button>
+                <div class="calendar-container" id="calendar-container">
+                    <input type="date" id="date-picker" value="{{ current_date }}">
+                </div>
+            </div>
+
+            {% for task in texttasks %}
+                <div class="text-task">
+                    <h3 class="heading">{{ task.title }}</h3>
+                    <p class="text-left">{{ task.full_text }}</p>
+                    <h3 class="text-right">Дата: {{ task.date }}</h3>
+                    <h3 class="text-right">Время: {{ task.time }}</h3>
+                    <h3 class="text-right">Автор задачи: {{ task.author.username }}</h3>
+
+                    {% if task.date == today %}
+                        <form action="{% url 'mark_text_task_complete' id=task.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="exit-success-button">Готово</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+                    
+            {% for task in entrytasks %}
+                <div class="entry-task">
+                    <h3 class="heading">Машина на въезд</h3>
+                    <h4 class="text-left" style="font-size: 24px;">Гос.Номер: {{ task.number_auto }}</h4>
+                    <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                        Въезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                    </div>
+                    <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                    <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                    <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                    <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                    <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                    {% if task.date == today and task.is_allowed %}
+                        <form action="{% url 'mark_entry_task_complete' id=task.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="entry-success-button">Въехала</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            {% for task in exittasks %}
+                <div class="exit-task">
+                    <h3 class="heading">Машина на выезд</h3>
+                    <h4 class="text-left" style="font-size: 24px;">Гос.Номер: {{ task.number_auto }}</h4>
+                    <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                        Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                    </div>
+                    <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                    <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                    <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                    <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                    <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                    {% if task.date == today and task.is_allowed %}
+                        <form action="{% url 'mark_exit_task_complete' id=task.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="exit-success-button">Выехала</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+<script src="{% static 'users/js/calendar-container.js' %}"></script>
+{% endblock %}

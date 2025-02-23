@@ -1,0 +1,108 @@
+{% extends 'users/security/security-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Главная страница{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/input-search.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/additional-styles/tasks-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'users/css/page-styles/security/counterparties-delivery.css' %}">
+{% endblock %}
+
+{% block main-content %}
+    <main>
+        <div class="right-content">
+            <h1>Главная страница</h1>
+            <div class="date">
+                <p id="currentDateTime"></p>
+            </div>
+
+            <form method="post" class="search-form">
+                {% csrf_token %}
+                <input type="search" name="query" placeholder="Поиск по номеру машины..." required>
+                <button type="submit">Поиск</button>
+            </form>
+
+            {% if uncompleted_entry_results or uncompleted_exit_results or uncompleted_kontragent or uncompleted_delivery %}
+                <h3>▼ Результаты поиска ▼</h3>
+            
+                {% for task in uncompleted_entry_results %}
+                    <div class="entry-task">
+                        <h3 class="heading">Машина на въезд</h3>
+                        <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ task.number_auto }}</h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Въезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                        {% if task.date == today and task.is_allowed %}
+                            <form action="{% url 'mark_entry_task_complete' id=task.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="entry-success-button">Въехала</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% for task in uncompleted_exit_results %}
+                    <div class="exit-task">
+                        <h3 class="heading">Машина на выезд</h3>
+                        <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ task.number_auto }}</h4>
+                        <div class="status {% if task.is_allowed %}allowed{% else %}denied{% endif %}">
+                            Выезд: {% if task.is_allowed %}Разрешен{% else %}Запрещен{% endif %}
+                        </div>
+                        <h4 class="text-left">Марка авто: <span>{{ task.marka_auto }}</span></h4>
+                        <h4 class="text-left">Название организации: <span>{{ task.name_organization }}</span></h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ task.description }}</span></h4>
+                        <h4 class="text-right">Время выезда: <span>{{ task.date }} {{ task.time }}</span></h4>
+                        <h4 class="text-right">Автор задачи: {{ task.author.username }}</h4>
+
+                        {% if task.date == today and task.is_allowed %}
+                            <form action="{% url 'mark_exit_task_complete' id=task.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="exit-success-button">Въехала</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- КОНТРАГЕНТЫ И ДОСТАВКА -->
+                {% for kontr in uncompleted_kontragent %}
+                    <div class="kontragent" style="width: 40%; margin-left: 30%;">
+                        <h3>Контрагент № {{ kontr.id }}</h3>
+                        <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ kontr.number_auto }}</h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ kontr.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ kontr.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ kontr.author }}</span></h4>
+                        <form action="{% url 'mark_counterparties_complete' id=kontr.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="kontragent-btn">Выехал</button>
+                        </form>
+                    </div>
+                {% endfor %}
+
+                {% for del in uncompleted_delivery %}
+                    <div class="delivery" style="width: 40%; margin-left: 30%;">
+                        <h3>Доставка № {{ del.id }}</h3>
+                        <h4 class="text-left" style="font-size: 24px;">Гос. номер авто: {{ del.number_auto }}</h4>
+                        <h4 class="text-left">Дополнительная информация: <span>{{ del.description }}</span></h4>
+                        <h4 class="text-right">Время въезда: <span>{{ del.date_entry }}</span></h4>
+                        <h4 class="text-right">Добавил: <span>{{ del.author }}</span></h4>
+                        <form action="{% url 'mark_delivery_complete' id=del.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="delivery-btn">Выехала</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'users/js/current-date.js' %}"></script>
+{% endblock %}

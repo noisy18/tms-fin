@@ -1,0 +1,40 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Добавление машины на въезд{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/calendar-container.css' %}">
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/add-forms/exit-form.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Добавление машины на выезд</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="add-exit-task-form">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.number_auto }}<br>
+                {{ form.marka_auto }}<br>
+                {{ form.name_organization }}<br>
+                <input type="date" id="date" name="date" value="{{ task.date|date:'Y-m-d' }}"><br>
+                <input type="time" id="time" name="time" value="{{ task.time|time:'H:i' }}"><br>
+                {{ form.description }}<br>
+                <input type="checkbox" id="is_allowed_entry" name="is_allowed" {% if form.is_allowed %}checked{% endif %}>
+                <label for="is_allowed_entry"></label><br>
+                <button class="btn-add-task" type="submit">Загрузить задачу</button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+{% endblock %}
