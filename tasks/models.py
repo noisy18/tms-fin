@@ -28,6 +28,7 @@ class EntryTasks(models.Model):
     description = models.TextField('Дополнительная информация', blank=True, null=True)
     is_allowed = models.BooleanField('Вьезд разрешён или запрещён', default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    date_time_add = models.DateTimeField('Дата, время добавления задачи', blank=True, null=True, auto_now_add=True)
 
     is_completed = models.BooleanField('Статус - Завешена', default=False)
     completed_at = models.DateTimeField('Время завершения', null=True, blank=True)
@@ -50,6 +51,7 @@ class ExitTasks(models.Model):
     description = models.TextField('Дополнительная информация', blank=True, null=True)
     is_allowed = models.BooleanField('Выезд разрешён или запрещён', default=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    date_time_add = models.DateTimeField('Дата, время добавления задачи', blank=True, null=True, auto_now_add=True)
 
     is_completed = models.BooleanField('Статус - Завешена', default=False)
     completed_at = models.DateTimeField('Время завершения', null=True, blank=True)
