@@ -1,7 +1,7 @@
 {% extends 'tms_admin/admin-layout.html' %}
 {% load static %}
 
-{% block title %}Task Manage System - Редактирование контрагента{% endblock %}
+{% block title %}Task Manage System - Информация о контрагенте{% endblock %}
 
 {% block style %}
     {{ super }}
@@ -11,38 +11,67 @@
 {% block main-content %}
 <main>
     <div class="right-content">
-        <h1>Редактирование - "Контрагента"</h1>
+        <h1>Информация о контрагенте - {{ counterparty.name }}</h1>
         <div class="date">
             <p id="currentDateTime"></p>
         </div>
 
-        <div class="edit-form">
-            <form method="post">
-                {% csrf_token %}
-                <label for="name">Имя:</label>
-                <input type="text" name="name" value="{{ counterparty.name }}">
-
-                <label for="surname">Фамилия:</label>
-                <input type="text" name="surname" value="{{ counterparty.surname }}">
-
-                <label for="last_name">Отчество:</label>
-                <input type="text" name="last_name" value="{{ counterparty.last_name }}">
-
-                <label for="marka_auto">Марка авто:</label>
-                <input type="text" name="marka_auto" value="{{ counterparty.marka_auto }}">
-
-                <label for="number_auto">Гос. номер авто:</label>
-                <input type="text" name="number_auto" value="{{ counterparty.number_auto }}">
-
-                <label for="vin_number">Vin номер:</label>
-                <input type="text" name="vin_number" value="{{ counterparty.vin_number }}">
-
-                <button type="submit">Сохранить изменения</button>
+        <div class="buttons">
+            <form action="{% url 'edit_counterparty' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Описание контрагента</button>
             </form>
+
+            <form action="{% url 'cars_info' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Информация об автомобилях</button>
+            </form>
+
+            <form action="{% url 'add_car' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Добавить авто контрагенту</button>
+            </form>
+        </div>
+        <div class="container">
+            <div class="edit-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <label for="name">Юр. лицо:</label>
+                    <input type="text" name="name" value="{{ counterparty.name }}" maxlength="50" required>
+
+                    <label for="inn">ИНН:</label>
+                    <input type="text" name="inn" value="{{ counterparty.inn }}" maxlength="10" required>
+
+                    <label for="kpp">КПП:</label>
+                    <input type="text" name="kpp" value="{{ counterparty.kpp }}" maxlength="9">
+
+                    <label for="okpo">ОКПО:</label>
+                    <input type="text" name="okpo" value="{{ counterparty.okpo }}" maxlength="10">
+
+                    <label for="ogrn">ОГРН:</label>
+                    <input type="text" name="ogrn" value="{{ counterparty.ogrn }}" maxlength="13">
+
+                    <button type="submit">Сохранить изменения</button>
+                </form>
+            </div>
+
+            <div class="info">
+                <div class="info-text">
+                    <p>Дата создания контрагента:</p>
+                    <div class="text">
+                        <p> {{ counterparty.created_at }} </p>
+                    </div>
+                </div>
+
+                <div class="info-text"></div>
+                    <p>Автор:</p>
+                    <div class="text">
+                        <p> {{ counterparty.author }} </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 </main>
 
 <!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
 {% endblock %}

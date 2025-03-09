@@ -26,19 +26,12 @@
         {% for counter in counterparty %}
             <div class="counterparty">
                 <div class="info">
-                    <p class="name">{{ counter.name }} {{ counter.surname }} {{ counter.last_name }}</p>
-                    <p class="auto" style="font-size: 20px;">Гос. номер авто: {{ counter.number_auto }}</p>
-                    <p class="auto">Марка авто: {{ counter.marka_auto }}</p>
-                    <p class="auto">Vin номер: {{ counter.vin_number }}</p>
+                    <p class="name">{{ counter.name }}</p>
+                    <p class="auto">ИНН: {{ counter.inn }}</p>
                 </div>
                 <div class="buttons">
-                    <form action="{% url 'create_counterparty_pass' counterparty_id=counter.id %}" method="post">
-                        {% csrf_token %}
-                        <button class="add-btn">Добавить на въезд</button>
-                    </form>
-
                     <form action="{% url 'edit_counterparty' counterparty_id=counter.id %}" method="get">
-                        <button class="edit-btn">Изменить данные</button>
+                        <button class="add-btn">Информация о контрагенте</button>
                     </form>
                 </div>
             </div>

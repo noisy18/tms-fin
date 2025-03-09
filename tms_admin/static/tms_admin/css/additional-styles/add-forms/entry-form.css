@@ -21,7 +21,7 @@ input[type='time'] {
     font-size: 16px;
     border: none;
     outline: none;
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: var(--white);
     margin-top: 10px;
     border: 1px solid var(--blue);

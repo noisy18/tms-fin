@@ -1,0 +1,62 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Информация о контрагенте{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/cars-list/edit-car.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <d class="right-content">
+        <h1>Изменить данные об авто ({{ car.full_name }}) - {{ counterparty.name }}</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="buttons">
+            <form action="{% url 'edit_counterparty' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Описание контрагента</button>
+            </form>
+
+            <form action="{% url 'cars_info' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Информация об автомобилях</button>
+            </form>
+
+            <form action="{% url 'add_car' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Добавить авто контрагенту</button>
+            </form>
+        </div>
+
+        <div class="edit-form">
+            <form method="post">
+                {% csrf_token %}
+                <label for="full_name">Полное наименование:</label>
+                <input type="text" name="full_name" value="{{ car.full_name }}" required>
+
+                <label for="number_auto">Гос. номер авто:</label>
+                <input type="text" name="number_auto" value="{{ car.number_auto }}" required>
+
+                <label for="vin_number">VIN номер:</label>
+                <input type="text" name="vin_number" value="{{ car.vin_number }}" required>
+
+                <label for="marka_auto">Марка авто:</label>
+                <input type="text" name="marka_auto" value="{{car.marka_auto}}" required>
+
+                <label for="model_auto">Модель авто:</label>
+                <input type="text" name="model_auto" value="{{ car.model_auto }}" required>
+
+                <label for="release_date">Дата выпуска:</label>
+                <input type="text" name="release_date" value="{{ car.release_date }}" required>
+
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+{% endblock %}

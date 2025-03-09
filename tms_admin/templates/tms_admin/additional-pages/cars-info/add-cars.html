@@ -1,0 +1,52 @@
+{% extends 'tms_admin/admin-layout.html' %}
+{% load static %}
+
+{% block title %}Task Manage System - Добавление машины{% endblock %}
+
+{% block style %}
+    {{ super }}
+    <link rel="stylesheet" href="{% static 'tms_admin/css/additional-styles/cars-list/add-car.css' %}">
+{% endblock %}
+
+{% block main-content %}
+<main>
+    <div class="right-content">
+        <h1>Добавить машину контрагенту - {{ counterparty.name }}</h1>
+        <div class="date">
+            <p id="currentDateTime"></p>
+        </div>
+
+        <div class="buttons">
+            <form action="{% url 'edit_counterparty' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Описание контрагента</button>
+            </form>
+
+            <form action="{% url 'cars_info' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Информация об автомобилях</button>
+            </form>
+
+            <form action="{% url 'add_car' counterparty_id=counterparty.id %}" method="get">
+                <button type="submit">Добавить авто контрагенту</button>
+            </form>
+        </div>
+
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.full_name }}
+                {{ form.number_auto }}
+                {{ form.vin_number }}
+                {{ form.marka_auto }}
+                {{ form.model_auto }}
+                {{ form.release_date }}
+
+                <button type="submit">Добавить автомобиль</button>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<!-- SCRIPTS -->
+<script src="{% static 'tms_admin/js/current-date.js' %}"></script>
+{% endblock %}

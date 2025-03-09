@@ -1,6 +1,6 @@
 from django.urls import path
 from tms_admin import views
-from counterparties.views import create_counterparty_pass, edit_counterparty
+from counterparties.views import create_car_pass, edit_counterparty, cars_info, add_car, edit_car
 
 urlpatterns = [
     # Основные страницы
@@ -42,6 +42,9 @@ urlpatterns = [
     path('tasks/<int:id>/complete-delivery', views.mark_delivery_complete, name='mark_delivery_complete'),
 
     # views.py из apps.counterparties
-    path('counterparties-list/<int:counterparty_id>/create', create_counterparty_pass, name='create_counterparty_pass'),
+    path('counterparties-list/<int:car_id>/create', create_car_pass, name='create_car_pass'),
     path('counterparties-list/<int:counterparty_id>/edit', edit_counterparty, name='edit_counterparty'),
+    path('counterparties-list/<int:counterparty_id>/cars', cars_info, name='cars_info'),
+    path('counterparties-list/<int:counterparty_id>/cars/add', add_car, name='add_car'),
+    path('counterparties-list/<int:counterparty_id>/cars/<int:car_id>/edit', edit_car, name='edit_car'),
 ]

@@ -36,7 +36,6 @@
     font-size: 16px;
     padding: 12px 16px;
     border-radius: 5px;
-    width: 200px;
     border: none;
 
     transition: all 0.3s ease;
@@ -49,7 +48,6 @@
 .edit-btn {
     background-color: var(--white);
     color: var(--blue);
-    width: 200px;
     border-radius: 5px;
     font-size: 16px;
     border: 1px solid var(--blue);
