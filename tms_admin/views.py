@@ -169,7 +169,7 @@ def counterparties_list(request):
         if not query:
             return redirect('counterparties_list')
         
-        counterparty = CounterParties.objects.filter(number_auto__icontains=query)
+        counterparty = CounterParties.objects.filter(name__icontains=query)
     else:
         counterparty = CounterParties.objects.all()
 
@@ -478,24 +478,6 @@ def add_exit_task(request):
         'form': form,
     }
     return render(request, 'tms_admin/additional-pages/add-forms/exit-form.html', context)
-
-@login_required
-@user_passes_test(is_admin)
-def add_counterparties(request):
-    if request.method == 'POST':
-        form = KontragentTasksForm(request.POST, user=request.user)
-        if form.is_valid():
-            form.author = request.user
-            form.save()
-            return redirect('counterparties_page')
-    else:
-        form = KontragentTasksForm(user=request.user)
-
-    context = {
-        'username': request.user.username,
-        'form': form,
-    }
-    return render(request, 'tms_admin/additional-pages/add-forms/counterparties-form.html', context)
 
 @login_required
 @user_passes_test(is_admin)

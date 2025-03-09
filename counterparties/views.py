@@ -48,6 +48,17 @@ def edit_counterparty(request, counterparty_id):
 def cars_info(request, counterparty_id):
     counterparty = get_object_or_404(CounterParties, id=counterparty_id)
     cars = CounterpartyCars.objects.filter(counterparty=counterparty)
+
+    if request.method == "POST":
+        query = request.POST.get('query')
+
+        if not query:
+            return redirect('cars_info', counterparty_id=counterparty.id)
+
+        cars = CounterpartyCars.objects.filter(number_auto__icontains=query)
+
+    else:
+        cars = CounterpartyCars.objects.all()
     context = {
         'username': request.user.username,
         'counterparty': counterparty,

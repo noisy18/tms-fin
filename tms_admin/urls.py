@@ -17,7 +17,6 @@ urlpatterns = [
     path('tasks/add-text', views.add_text_task, name='add_text_task'),
     path('tasks/add-entry', views.add_entry_task, name='add_entry_task'),
     path('tasks/add-exit', views.add_exit_task, name='add_exit_task'),
-    path('counterparties/add-counterparties', views.add_counterparties, name='add_counterparties'),
     path('counterparties/add-delivery', views.add_delivery, name='add_delivery'),
 
     path('tasks/<int:id>/edit-text', views.edit_text_task, name='edit_text_task'),
