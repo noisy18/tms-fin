@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'logs.apps.LogsConfig',
     'api.apps.ApiConfig',
     'counterparties.apps.CounterpartiesConfig',
+    'newcars.apps.NewcarsConfig',
 ]
 
 MIDDLEWARE = [
